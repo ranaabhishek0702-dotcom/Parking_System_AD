@@ -1,0 +1,25 @@
+{
+  "name": "parksense-functions",
+  "version": "1.0.0",
+  "private": true,
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@parksense/shared": "*",
+    "firebase-admin": "^12.7.0",
+    "firebase-functions": "^6.2.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "typescript": "^5.7.3"
+  }
+}

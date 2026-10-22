@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+.config/
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+
+# Next.js / Build Outputs
+.next/
+out/
+build/
+dist/
+
+# Firebase
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+hub-debug.log*
+pubsub-debug.log*
+database-debug.log*
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.pem
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo

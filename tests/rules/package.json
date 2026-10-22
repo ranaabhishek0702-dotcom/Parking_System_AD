@@ -1,0 +1,20 @@
+{
+  "name": "rules-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "tsx ../../node_modules/mocha/bin/mocha.js src/firestore-rules.test.ts src/rtdb-rules.test.ts --timeout 15000"
+  },
+  "dependencies": {
+    "@firebase/rules-unit-testing": "^3.0.4",
+    "firebase": "^10.14.1"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.4",
+    "mocha": "^11.1.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.7.3"
+  }
+}

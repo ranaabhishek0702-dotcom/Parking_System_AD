@@ -1,0 +1,29 @@
+{
+  "name": "parksense-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ParkSense: Real-Time Smart Street-Parking Platform for Indian Cities",
+  "workspaces": [
+    "packages/*",
+    "functions",
+    "simulator",
+    "tests/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=@parksense/shared && npm run build --workspace=parksense-functions && npm run build --workspace=parksense-simulator",
+    "test:rules": "node scripts/test-rules.mjs",
+    "seed": "npm run seed --workspace=parksense-simulator",
+    "backfill": "npm run backfill --workspace=parksense-simulator",
+    "simulate": "npm run simulate --workspace=parksense-simulator",
+    "emulators": "firebase emulators:start --only auth,firestore,database,functions",
+    "dev:backend": "node scripts/dev-backend.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "dotenv": "^16.4.7",
+    "firebase-tools": "^13.31.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "city": "Delhi NCR",
+  "state": "National Capital Region",
+  "country": "India",
+  "timezone": "Asia/Kolkata",
+  "zones": [
+    {
+      "id": "delhi-cp-inner",
+      "name": "Connaught Place Inner Circle (Blocks A-C)",
+      "type": "market",
+      "location": { "lat": 28.6328, "lng": 77.2197 },
+      "polygon": [
+        { "lat": 28.6345, "lng": 77.218 },
+        { "lat": 28.6345, "lng": 77.2215 },
+        { "lat": 28.6312, "lng": 77.2215 },
+        { "lat": 28.6312, "lng": 77.218 }
+      ],
+      "baseHourlyRate": 40,
+      "operatingHours": { "start": "08:00", "end": "22:30", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": false },
+      "bayCounts": {
+        "car": 30,
+        "two_wheeler": 10,
+        "ev": 5,
+        "handicapped": 3
+      }
+    },
+    {
+      "id": "delhi-khan-market",
+      "name": "Khan Market Commercial Outer Ring",
+      "type": "market",
+      "location": { "lat": 28.6003, "lng": 77.227 },
+      "polygon": [
+        { "lat": 28.6015, "lng": 77.2255 },
+        { "lat": 28.6015, "lng": 77.2285 },
+        { "lat": 28.599, "lng": 77.2285 },
+        { "lat": 28.599, "lng": 77.2255 }
+      ],
+      "baseHourlyRate": 50,
+      "operatingHours": { "start": "09:00", "end": "23:00", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": false },
+      "bayCounts": {
+        "car": 22,
+        "two_wheeler": 8,
+        "ev": 2,
+        "handicapped": 2
+      }
+    },
+    {
+      "id": "delhi-karol-bagh",
+      "name": "Karol Bagh (Arya Samaj Road & Ajmal Khan Rd)",
+      "type": "market",
+      "location": { "lat": 28.6517, "lng": 77.1906 },
+      "polygon": [
+        { "lat": 28.6535, "lng": 77.189 },
+        { "lat": 28.6535, "lng": 77.1925 },
+        { "lat": 28.65, "lng": 77.1925 },
+        { "lat": 28.65, "lng": 77.189 }
+      ],
+      "baseHourlyRate": 30,
+      "operatingHours": { "start": "10:00", "end": "22:00", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": false },
+      "bayCounts": {
+        "car": 20,
+        "two_wheeler": 22,
+        "ev": 2,
+        "handicapped": 2
+      }
+    },
+    {
+      "id": "delhi-lajpat-nagar",
+      "name": "Lajpat Nagar Central Market Ring",
+      "type": "market",
+      "location": { "lat": 28.5677, "lng": 77.2433 },
+      "polygon": [
+        { "lat": 28.5695, "lng": 77.2415 },
+        { "lat": 28.5695, "lng": 77.245 },
+        { "lat": 28.566, "lng": 77.245 },
+        { "lat": 28.566, "lng": 77.2415 }
+      ],
+      "baseHourlyRate": 35,
+      "operatingHours": { "start": "10:00", "end": "22:00", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": false },
+      "bayCounts": {
+        "car": 24,
+        "two_wheeler": 14,
+        "ev": 2,
+        "handicapped": 2
+      }
+    },
+    {
+      "id": "gurugram-cyber-city",
+      "name": "DLF Cyber City Building 10 & Epicode",
+      "type": "office",
+      "location": { "lat": 28.4952, "lng": 77.0894 },
+      "polygon": [
+        { "lat": 28.4975, "lng": 77.0875 },
+        { "lat": 28.4975, "lng": 77.0915 },
+        { "lat": 28.493, "lng": 77.0915 },
+        { "lat": 28.493, "lng": 77.0875 }
+      ],
+      "baseHourlyRate": 60,
+      "operatingHours": { "start": "07:30", "end": "22:00", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": true },
+      "bayCounts": {
+        "car": 28,
+        "two_wheeler": 8,
+        "ev": 8,
+        "handicapped": 2
+      }
+    },
+    {
+      "id": "delhi-aiims-emergency",
+      "name": "AIIMS New Delhi Emergency & OPD Perimeter",
+      "type": "hospital",
+      "location": { "lat": 28.5672, "lng": 77.21 },
+      "polygon": [
+        { "lat": 28.569, "lng": 77.208 },
+        { "lat": 28.569, "lng": 77.212 },
+        { "lat": 28.565, "lng": 77.212 },
+        { "lat": 28.565, "lng": 77.208 }
+      ],
+      "baseHourlyRate": 20,
+      "operatingHours": { "start": "00:00", "end": "23:59", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": true },
+      "bayCounts": {
+        "car": 18,
+        "two_wheeler": 10,
+        "ev": 4,
+        "handicapped": 6
+      }
+    },
+    {
+      "id": "delhi-chandni-chowk",
+      "name": "Chandni Chowk Heritage Corridor (Near Sis Ganj)",
+      "type": "market",
+      "location": { "lat": 28.6562, "lng": 77.2307 },
+      "polygon": [
+        { "lat": 28.6575, "lng": 77.229 },
+        { "lat": 28.6575, "lng": 77.2325 },
+        { "lat": 28.6548, "lng": 77.2325 },
+        { "lat": 28.6548, "lng": 77.229 }
+      ],
+      "baseHourlyRate": 25,
+      "operatingHours": { "start": "08:30", "end": "21:30", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": false },
+      "bayCounts": {
+        "car": 10,
+        "two_wheeler": 18,
+        "ev": 2,
+        "handicapped": 2
+      }
+    },
+    {
+      "id": "gurugram-huda-metro",
+      "name": "HUDA City Centre / Millennium City Metro Hub",
+      "type": "transit",
+      "location": { "lat": 28.4595, "lng": 77.0725 },
+      "polygon": [
+        { "lat": 28.4615, "lng": 77.071 },
+        { "lat": 28.4615, "lng": 77.0745 },
+        { "lat": 28.4575, "lng": 77.0745 },
+        { "lat": 28.4575, "lng": 77.071 }
+      ],
+      "baseHourlyRate": 30,
+      "operatingHours": { "start": "05:30", "end": "23:30", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": false },
+      "bayCounts": {
+        "car": 20,
+        "two_wheeler": 12,
+        "ev": 2,
+        "handicapped": 2
+      }
+    },
+    {
+      "id": "delhi-nehru-place",
+      "name": "Nehru Place Commercial Center (Main Plaza)",
+      "type": "office",
+      "location": { "lat": 28.5494, "lng": 77.2526 },
+      "polygon": [
+        { "lat": 28.5512, "lng": 77.251 },
+        { "lat": 28.5512, "lng": 77.2545 },
+        { "lat": 28.5475, "lng": 77.2545 },
+        { "lat": 28.5475, "lng": 77.251 }
+      ],
+      "baseHourlyRate": 40,
+      "operatingHours": { "start": "09:30", "end": "21:00", "timezone": "Asia/Kolkata" },
+      "amenities": { "hasEV": true, "hasDisabled": true, "covered": false },
+      "bayCounts": {
+        "car": 22,
+        "two_wheeler": 10,
+        "ev": 2,
+        "handicapped": 2
+      }
+    }
+  ]
+}

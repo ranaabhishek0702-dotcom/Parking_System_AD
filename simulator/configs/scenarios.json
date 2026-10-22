@@ -1,0 +1,52 @@
+{
+  "normal-weekday": {
+    "name": "Standard Indian Urban Weekday",
+    "description": "Baseline diurnal traffic flow with morning (8:30-10:30 AM) and evening (5:30-8:30 PM) peaks",
+    "occupancyMultiplier": 1.0,
+    "arrivalRatePerMinute": 15,
+    "departureRatePerMinute": 14,
+    "violationProbability": 0.03,
+    "weatherCondition": "clear",
+    "surgeMultiplier": 1.0
+  },
+  "ipl-match-night": {
+    "name": "IPL Match Night at Arun Jaitley Stadium / Hubs",
+    "description": "Massive evening surge towards transit, CP, and arterial zones starting at 5:30 PM",
+    "occupancyMultiplier": 1.45,
+    "arrivalRatePerMinute": 35,
+    "departureRatePerMinute": 10,
+    "violationProbability": 0.08,
+    "weatherCondition": "clear",
+    "surgeMultiplier": 1.8
+  },
+  "diwali-shopping-rush": {
+    "name": "Diwali Festive Shopping Rush",
+    "description": "Extreme 95%+ capacity crunch across retail markets (Karol Bagh, Lajpat Nagar, Chandni Chowk)",
+    "occupancyMultiplier": 1.8,
+    "arrivalRatePerMinute": 45,
+    "departureRatePerMinute": 25,
+    "violationProbability": 0.12,
+    "weatherCondition": "smog_fog",
+    "surgeMultiplier": 2.2
+  },
+  "monsoon-deluge": {
+    "name": "Monsoon Street Waterlogging",
+    "description": "Heavy rainfall slowdown, reduced arrival turnover, and selective bay closures",
+    "occupancyMultiplier": 0.65,
+    "arrivalRatePerMinute": 8,
+    "departureRatePerMinute": 6,
+    "violationProbability": 0.02,
+    "weatherCondition": "heavy_rain",
+    "surgeMultiplier": 0.9
+  },
+  "illegal-parking-surge": {
+    "name": "Enforcement Blitz: Illegal Parking Spikes",
+    "description": "High incidence of unregistered vehicles occupying reserved/EV spots and overstaying",
+    "occupancyMultiplier": 1.15,
+    "arrivalRatePerMinute": 20,
+    "departureRatePerMinute": 16,
+    "violationProbability": 0.25,
+    "weatherCondition": "clear",
+    "surgeMultiplier": 1.2
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "rules": {
+    "live_zones": {
+      ".read": true,
+      ".write": "auth != null && auth.token.role === 'super_admin'",
+      "$zoneId": {
+        ".indexOn": ["lastUpdated", "occupancyRate"]
+      }
+    },
+    "live_bays": {
+      ".read": "auth != null",
+      ".write": "auth != null && auth.token.role === 'super_admin'",
+      "$zoneId": {
+        "$bayId": {
+          ".indexOn": ["status", "vehicleType"]
+        }
+      }
+    },
+    "live_stats": {
+      ".read": true,
+      ".write": "auth != null && auth.token.role === 'super_admin'"
+    }
+  }
+}
