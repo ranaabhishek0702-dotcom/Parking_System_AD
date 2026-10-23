@@ -115,5 +115,11 @@ service cloud.firestore {
       allow read: if isSuperAdmin() || isFinanceAuditor();
       allow write: if isSuperAdmin();
     }
+
+    // 12. Forecasts: Public read for analytics & citizen booking lookahead, Super Admin / Functions write
+    match /forecasts/{zoneId} {
+      allow read: if true;
+      allow write: if isSuperAdmin();
+    }
   }
 }
