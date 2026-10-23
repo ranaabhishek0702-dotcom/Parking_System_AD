@@ -1,48 +1,9 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ingestEvent = void 0;
 const https_1 = require("firebase-functions/v2/https");
-const admin = __importStar(require("firebase-admin"));
 const shared_1 = require("@parksense/shared");
-// Initialize admin app if not already initialized
-if (!admin.apps.length) {
-    admin.initializeApp();
-}
-const firestore = admin.firestore();
-const rtdb = admin.database();
+const firebase_js_1 = require("./firebase.js");
 exports.ingestEvent = (0, https_1.onRequest)({
     cors: true,
     region: 'us-central1'
@@ -68,7 +29,7 @@ exports.ingestEvent = (0, https_1.onRequest)({
         const eventData = parseResult.data;
         const { gatewayId, sensorId, bayId, zoneId, eventType, timestamp, idempotencyKey, vehicleMetadata, telemetry } = eventData;
         // 3. Idempotency Check: Query Firestore by idempotencyKey
-        const existingEvents = await firestore
+        const existingEvents = await firebase_js_1.firestore
             .collection('events')
             .where('idempotencyKey', '==', idempotencyKey)
             .limit(1)
@@ -83,12 +44,12 @@ exports.ingestEvent = (0, https_1.onRequest)({
             return;
         }
         const eventId = `evt_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-        const serverTimestamp = admin.firestore.FieldValue.serverTimestamp();
-        const eventTimestamp = admin.firestore.Timestamp.fromMillis(timestamp);
+        const serverTimestamp = firebase_js_1.admin.firestore.FieldValue.serverTimestamp();
+        const eventTimestamp = firebase_js_1.admin.firestore.Timestamp.fromMillis(timestamp);
         // 4. Atomic Firestore Batch Write
-        const batch = firestore.batch();
+        const batch = firebase_js_1.firestore.batch();
         // (a) Record immutable event in /events
-        const eventRef = firestore.collection('events').doc(eventId);
+        const eventRef = firebase_js_1.firestore.collection('events').doc(eventId);
         batch.set(eventRef, {
             id: eventId,
             idempotencyKey,
@@ -105,7 +66,7 @@ exports.ingestEvent = (0, https_1.onRequest)({
             rawPayload: req.body
         });
         // (b) Update /sensors telemetry
-        const sensorRef = firestore.collection('sensors').doc(sensorId);
+        const sensorRef = firebase_js_1.firestore.collection('sensors').doc(sensorId);
         const sensorUpdates = {
             lastHeartbeat: eventTimestamp,
             updatedAt: serverTimestamp
@@ -118,7 +79,7 @@ exports.ingestEvent = (0, https_1.onRequest)({
         }
         batch.set(sensorRef, sensorUpdates, { merge: true });
         // (c) Update /bays state
-        const bayRef = firestore.collection('bays').doc(bayId);
+        const bayRef = firebase_js_1.firestore.collection('bays').doc(bayId);
         let newBayStatus = 'available';
         if (eventType === 'ENTRY') {
             newBayStatus = 'occupied';
@@ -143,9 +104,9 @@ exports.ingestEvent = (0, https_1.onRequest)({
         // Commit Firestore batch
         await batch.commit();
         // 5. Update Firebase Realtime Database (RTDB) Hot State
-        const zoneLiveRef = rtdb.ref(`live_zones/${zoneId}`);
-        const bayLiveRef = rtdb.ref(`live_bays/${zoneId}/${bayId}`);
-        const statsRef = rtdb.ref('live_stats');
+        const zoneLiveRef = firebase_js_1.rtdb.ref(`live_zones/${zoneId}`);
+        const bayLiveRef = firebase_js_1.rtdb.ref(`live_bays/${zoneId}/${bayId}`);
+        const statsRef = firebase_js_1.rtdb.ref('live_stats');
         // Update bay state in RTDB
         await bayLiveRef.set({
             status: newBayStatus,

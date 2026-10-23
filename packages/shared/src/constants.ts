@@ -58,6 +58,7 @@ export const EVENT_TYPES = [
 export type EventType = (typeof EVENT_TYPES)[number];
 
 export const RESERVATION_STATUSES = [
+  'hold',
   'pending',
   'confirmed',
   'active',

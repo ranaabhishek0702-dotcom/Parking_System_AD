@@ -1,14 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https';
-import * as admin from 'firebase-admin';
 import { SensorIngestEventSchema } from '@parksense/shared';
-
-// Initialize admin app if not already initialized
-if (!admin.apps.length) {
-  admin.initializeApp();
-}
-
-const firestore = admin.firestore();
-const rtdb = admin.database();
+import { firestore, rtdb, admin } from './firebase.js';
 
 export const ingestEvent = onRequest(
   {

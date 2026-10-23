@@ -1,0 +1,20 @@
+{
+  "name": "concurrency-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "tsx ../../node_modules/mocha/bin/mocha.js src/**/*.test.ts --timeout 60000"
+  },
+  "dependencies": {
+    "@parksense/shared": "*",
+    "firebase-admin": "^12.7.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.4",
+    "mocha": "^11.1.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}

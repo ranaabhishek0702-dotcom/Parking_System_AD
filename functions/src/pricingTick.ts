@@ -8,12 +8,7 @@ import {
   type ZoneType
 } from '@parksense/shared';
 
-if (!admin.apps.length) {
-  admin.initializeApp();
-}
-
-const firestore = admin.firestore();
-const rtdb = admin.database();
+import { firestore, rtdb } from './firebase.js';
 
 /**
  * Core pricing update execution logic shared between scheduler and HTTP triggers

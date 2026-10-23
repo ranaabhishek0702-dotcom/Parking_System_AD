@@ -10,7 +10,7 @@
     "shell": "firebase functions:shell"
   },
   "engines": {
-    "node": ">=20"
+    "node": "22"
   },
   "dependencies": {
     "@parksense/shared": "*",

@@ -137,7 +137,13 @@ export const ReservationSchema = z.object({
   gracePeriodMinutes: z.number().int().default(15),
   estimatedAmount: z.number().nonnegative(),
   finalAmount: z.number().nonnegative().optional(),
+  lockedHourlyRate: z.number().nonnegative().optional(),
   paymentId: z.string().optional(),
+  paymentMethod: z.string().optional(),
+  holdExpiresAt: z.union([z.number(), z.string(), z.any()]).optional(),
+  qrToken: z.string().optional(),
+  checkedInAt: z.union([z.number(), z.string(), z.any()]).optional(),
+  cancelledAt: z.union([z.number(), z.string(), z.any()]).optional(),
   createdAt: z.union([z.number(), z.string(), z.any()]),
   updatedAt: z.union([z.number(), z.string(), z.any()])
 });
@@ -197,7 +203,11 @@ export const ViolationSchema = z.object({
   resolvedAt: z.union([z.number(), z.string(), z.any()]).optional(),
   status: z.enum(VIOLATION_STATUSES).default('detected'),
   fineAmount: z.number().nonnegative().default(500),
-  challanId: z.string().optional()
+  challanId: z.string().optional(),
+  reporterUserId: z.string().optional(),
+  photoUrl: z.string().optional(),
+  location: GeoPointSchema.optional(),
+  notes: z.string().optional()
 });
 
 // 10. Users

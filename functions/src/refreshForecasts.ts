@@ -3,11 +3,7 @@ import { onSchedule } from 'firebase-functions/v2/scheduler';
 import * as admin from 'firebase-admin';
 import { computeForecast, type HourlyDataPoint, type ZoneType } from '@parksense/shared';
 
-if (!admin.apps.length) {
-  admin.initializeApp();
-}
-
-const firestore = admin.firestore();
+import { firestore } from './firebase.js';
 
 export async function executeForecastRefresh(): Promise<{
   refreshedZones: string[];

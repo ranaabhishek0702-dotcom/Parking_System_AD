@@ -39,12 +39,9 @@ const https_1 = require("firebase-functions/v2/https");
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const admin = __importStar(require("firebase-admin"));
 const shared_1 = require("@parksense/shared");
-if (!admin.apps.length) {
-    admin.initializeApp();
-}
-const firestore = admin.firestore();
+const firebase_js_1 = require("./firebase.js");
 async function executeForecastRefresh() {
-    const zonesSnapshot = await firestore.collection('zones').get();
+    const zonesSnapshot = await firebase_js_1.firestore.collection('zones').get();
     const refreshedZones = [];
     const summary = {};
     for (const zoneDoc of zonesSnapshot.docs) {
@@ -52,7 +49,7 @@ async function executeForecastRefresh() {
         const zoneData = zoneDoc.data();
         const zoneType = (zoneData.type || 'market');
         // Fetch up to 14 days of historical hourly records
-        const historySnap = await firestore
+        const historySnap = await firebase_js_1.firestore
             .collection('price_history')
             .where('zoneId', '==', zoneId)
             .orderBy('calculatedAt', 'desc')
@@ -78,7 +75,7 @@ async function executeForecastRefresh() {
         const forecast24h = (0, shared_1.computeForecast)(zoneId, zoneType, historyPoints, 24);
         const forecast7d = (0, shared_1.computeForecast)(zoneId, zoneType, historyPoints, 168);
         // Save cached forecasts to Firestore /forecasts/{zoneId}
-        await firestore.collection('forecasts').doc(zoneId).set({
+        await firebase_js_1.firestore.collection('forecasts').doc(zoneId).set({
             zoneId,
             zoneName: zoneData.name || zoneId,
             zoneType,

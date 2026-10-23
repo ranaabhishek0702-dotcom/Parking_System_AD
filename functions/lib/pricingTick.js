@@ -39,11 +39,7 @@ const https_1 = require("firebase-functions/v2/https");
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const admin = __importStar(require("firebase-admin"));
 const shared_1 = require("@parksense/shared");
-if (!admin.apps.length) {
-    admin.initializeApp();
-}
-const firestore = admin.firestore();
-const rtdb = admin.database();
+const firebase_js_1 = require("./firebase.js");
 /**
  * Core pricing update execution logic shared between scheduler and HTTP triggers
  */
@@ -51,7 +47,7 @@ async function executePricingTick() {
     const now = Date.now();
     const serverTimestamp = admin.firestore.FieldValue.serverTimestamp();
     // 1. Fetch live zone occupancy states from RTDB
-    const liveZonesSnap = await rtdb.ref('live_zones').get();
+    const liveZonesSnap = await firebase_js_1.rtdb.ref('live_zones').get();
     if (!liveZonesSnap.exists()) {
         console.warn('No live_zones found in RTDB');
         return { updatedZonesCount: 0, results: {} };
@@ -59,10 +55,10 @@ async function executePricingTick() {
     const liveZones = liveZonesSnap.val();
     const results = {};
     // Batch writes for Firestore price_history
-    const historyBatch = firestore.batch();
+    const historyBatch = firebase_js_1.firestore.batch();
     for (const [zoneId, zoneLive] of Object.entries(liveZones)) {
         // 2. Fetch zone configuration from Firestore
-        const zoneDoc = await firestore.collection('zones').doc(zoneId).get();
+        const zoneDoc = await firebase_js_1.firestore.collection('zones').doc(zoneId).get();
         const zoneData = zoneDoc.data() || {};
         const baseHourlyRate = zoneData.baseHourlyRate || 40;
         const zoneType = (zoneData.type || 'market');
@@ -71,7 +67,7 @@ async function executePricingTick() {
         // 3. Fetch recent historical snapshots to compute 45-min forecast lookahead
         let forecastOccupancy45Min = currentOccupancy;
         try {
-            const historySnap = await firestore
+            const historySnap = await firebase_js_1.firestore
                 .collection('price_history')
                 .where('zoneId', '==', zoneId)
                 .orderBy('calculatedAt', 'desc')
@@ -112,7 +108,7 @@ async function executePricingTick() {
         });
         results[zoneId] = pricingResult;
         // 5. Update RTDB Live State for sub-second client reads
-        await rtdb.ref(`live_zones/${zoneId}`).update({
+        await firebase_js_1.rtdb.ref(`live_zones/${zoneId}`).update({
             currentRatePerHour: pricingResult.effectiveRate,
             demandIndex: pricingResult.demandIndex,
             pricingReason: pricingResult.humanReason,
@@ -122,7 +118,7 @@ async function executePricingTick() {
         });
         // 6. Write detailed audit record to Firestore /price_history
         const historyId = `hist_${zoneId}_${now}`;
-        const historyRef = firestore.collection('price_history').doc(historyId);
+        const historyRef = firebase_js_1.firestore.collection('price_history').doc(historyId);
         historyBatch.set(historyRef, {
             id: historyId,
             zoneId,
