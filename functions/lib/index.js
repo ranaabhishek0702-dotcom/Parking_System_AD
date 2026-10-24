@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.paymentWebhook = exports.reportViolation = exports.releaseExpiredHoldsScheduled = exports.releaseExpiredHolds = exports.cancelReservation = exports.extendReservation = exports.checkIn = exports.confirmBooking = exports.createHold = exports.refreshForecastsScheduled = exports.refreshForecasts = exports.pricingTickScheduled = exports.pricingTick = exports.setUserRole = exports.ingestEvent = void 0;
+exports.assignOfficer = exports.issueChallan = exports.detectViolationsScheduled = exports.detectViolations = exports.paymentWebhook = exports.reportViolation = exports.releaseExpiredHoldsScheduled = exports.releaseExpiredHolds = exports.cancelReservation = exports.extendReservation = exports.checkIn = exports.confirmBooking = exports.createHold = exports.refreshForecastsScheduled = exports.refreshForecasts = exports.pricingTickScheduled = exports.pricingTick = exports.setUserRole = exports.ingestEvent = void 0;
 var ingestEvent_js_1 = require("./ingestEvent.js");
 Object.defineProperty(exports, "ingestEvent", { enumerable: true, get: function () { return ingestEvent_js_1.ingestEvent; } });
 var authHooks_js_1 = require("./authHooks.js");
@@ -21,4 +21,9 @@ Object.defineProperty(exports, "releaseExpiredHolds", { enumerable: true, get: f
 Object.defineProperty(exports, "releaseExpiredHoldsScheduled", { enumerable: true, get: function () { return reservations_js_1.releaseExpiredHoldsScheduled; } });
 Object.defineProperty(exports, "reportViolation", { enumerable: true, get: function () { return reservations_js_1.reportViolation; } });
 Object.defineProperty(exports, "paymentWebhook", { enumerable: true, get: function () { return reservations_js_1.paymentWebhook; } });
+var violationDetector_js_1 = require("./violationDetector.js");
+Object.defineProperty(exports, "detectViolations", { enumerable: true, get: function () { return violationDetector_js_1.detectViolations; } });
+Object.defineProperty(exports, "detectViolationsScheduled", { enumerable: true, get: function () { return violationDetector_js_1.detectViolationsScheduled; } });
+Object.defineProperty(exports, "issueChallan", { enumerable: true, get: function () { return violationDetector_js_1.issueChallan; } });
+Object.defineProperty(exports, "assignOfficer", { enumerable: true, get: function () { return violationDetector_js_1.assignOfficer; } });
 //# sourceMappingURL=index.js.map

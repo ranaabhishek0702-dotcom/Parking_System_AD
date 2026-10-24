@@ -1,6 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import * as admin from 'firebase-admin';
+import { FieldValue } from 'firebase-admin/firestore';
 import {
   calculateDynamicPrice,
   computeForecast,
@@ -18,7 +18,7 @@ export async function executePricingTick(): Promise<{
   results: Record<string, any>;
 }> {
   const now = Date.now();
-  const serverTimestamp = admin.firestore.FieldValue.serverTimestamp();
+  const serverTimestamp = FieldValue.serverTimestamp();
 
   // 1. Fetch live zone occupancy states from RTDB
   const liveZonesSnap = await rtdb.ref('live_zones').get();

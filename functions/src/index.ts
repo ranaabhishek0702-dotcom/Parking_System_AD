@@ -13,3 +13,9 @@ export {
   reportViolation,
   paymentWebhook
 } from './reservations.js';
+export {
+  detectViolations,
+  detectViolationsScheduled,
+  issueChallan,
+  assignOfficer
+} from './violationDetector.js';

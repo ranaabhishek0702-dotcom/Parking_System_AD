@@ -1,6 +1,6 @@
 import { onRequest } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import * as admin from 'firebase-admin';
+import { FieldValue } from 'firebase-admin/firestore';
 import { computeForecast, type HourlyDataPoint, type ZoneType } from '@parksense/shared';
 
 import { firestore } from './firebase.js';
@@ -53,7 +53,7 @@ export async function executeForecastRefresh(): Promise<{
       zoneId,
       zoneName: zoneData.name || zoneId,
       zoneType,
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
       backtestMape: forecast24h.backtestMape,
       naiveMape: forecast24h.naiveMape,
       modelBeatsNaive: forecast24h.modelBeatsNaive,

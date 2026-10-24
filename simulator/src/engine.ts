@@ -85,27 +85,54 @@ export class SimulationEngine {
     console.log(
       picocolors.green(`✓ Loaded ${this.baysCache.length} bays across ${this.cityConfig.zones.length} zones`)
     );
+
+    // Listen for dynamic control updates from Admin Dashboard
+    rtdb.ref('simulation_control').on('value', (snapshot) => {
+      const ctrl = snapshot.val();
+      if (ctrl) {
+        if (ctrl.speed && ['1x', '10x', '60x'].includes(ctrl.speed) && ctrl.speed !== this.options.speed) {
+          this.options.speed = ctrl.speed;
+          console.log(picocolors.bold(picocolors.yellow(`\n⚡ [Simulator Control] Speed updated to ${ctrl.speed}`)));
+        }
+        if (ctrl.scenario && this.scenarios[ctrl.scenario] && ctrl.scenario !== this.options.scenario) {
+          this.options.scenario = ctrl.scenario;
+          console.log(picocolors.bold(picocolors.magenta(`\n🎪 [Simulator Control] Scenario shifted to ${this.scenarios[ctrl.scenario]?.name || ctrl.scenario}`)));
+        }
+        if (ctrl.seed && ctrl.seed !== this.options.seed) {
+          this.options.seed = ctrl.seed;
+          this.prng = createPrng(ctrl.seed);
+          console.log(picocolors.bold(picocolors.cyan(`\n🌱 [Simulator Control] Seed re-initialized to ${ctrl.seed}`)));
+        }
+      }
+    });
+
+    // Write initial state to simulation_state
+    await rtdb.ref('simulation_state').set({
+      speed: this.options.speed,
+      scenario: this.options.scenario,
+      seed: this.options.seed,
+      active: true,
+      updatedAt: Date.now()
+    });
   }
 
   async start() {
     this.isRunning = true;
-    const scenario = this.scenarios[this.options.scenario] || this.scenarios['normal-weekday'];
 
     console.log(
       picocolors.bold(
         picocolors.magenta(`\n🚀 Urban Simulator Running at ${this.options.speed} Speed`)
       )
     );
-    console.log(picocolors.bold(`   • Scenario: ${scenario.name}`));
-    console.log(picocolors.gray(`   • Description: ${scenario.description}`));
+    console.log(picocolors.bold(`   • Scenario: ${this.options.scenario}`));
     console.log(picocolors.gray(`   • Reproducible Seed: ${this.options.seed}`));
-    console.log(picocolors.gray(`   • Surge Multiplier: ${scenario.surgeMultiplier}x`));
     console.log(picocolors.cyan(`\nLive Telemetry Stream:`));
 
-    const tickIntervalMs =
-      this.options.speed === '60x' ? 50 : this.options.speed === '10x' ? 300 : 2500;
-
     while (this.isRunning) {
+      const scenario = this.scenarios[this.options.scenario] || this.scenarios['normal-weekday'];
+      const tickIntervalMs =
+        this.options.speed === '60x' ? 60 : this.options.speed === '10x' ? 350 : 2500;
+
       try {
         await this.step(scenario);
       } catch (err: any) {
@@ -117,6 +144,8 @@ export class SimulationEngine {
 
   stop() {
     this.isRunning = false;
+    rtdb.ref('simulation_control').off();
+    rtdb.ref('simulation_state').update({ active: false });
     console.log(picocolors.yellow('Simulation stopped.'));
   }
 

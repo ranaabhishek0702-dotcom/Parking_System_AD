@@ -20,7 +20,8 @@
     "backfill": "npm run backfill --workspace=parksense-simulator",
     "simulate": "npm run simulate --workspace=parksense-simulator",
     "emulators": "firebase emulators:start --only auth,firestore,database,functions",
-    "dev:backend": "node scripts/dev-backend.mjs"
+    "dev:backend": "node scripts/dev-backend.mjs",
+    "demo": "node scripts/demo.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
