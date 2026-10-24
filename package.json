@@ -24,7 +24,8 @@
     "demo": "node scripts/demo.mjs",
     "desktop": "npm run dev --workspace=parksense-desktop",
     "desktop:start": "npm run start --workspace=parksense-desktop",
-    "desktop:build": "npm run build --workspace=parksense-desktop"
+    "desktop:build": "npm run build --workspace=parksense-desktop",
+    "dist:dmg": "node scripts/package-dmg.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
