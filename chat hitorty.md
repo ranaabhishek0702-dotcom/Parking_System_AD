@@ -241,7 +241,7 @@ now to turn it into desktop app use electron please baby girl
 
 | Commit Hash | Author | Commit Message | Scope & Key Deliverables |
 | :--- | :--- | :--- | :--- |
-| **`Pending`** | Abhishek Rana | `Native Electron Desktop Application and ICCC Command Suite` | Phase 6: Electron 33 desktop app (`apps/desktop`), multi-window citizen companion, native menu/tray, PDF/CSV export, and `npm run desktop`. |
+| **`4530cbc`** | Abhishek Rana | `Native Electron Desktop Application and ICCC Command Suite` | Phase 6: Electron 33 desktop app (`apps/desktop`), multi-window citizen companion, native menu/tray, PDF/CSV export, and `npm run desktop`. |
 | **`73758fd`** | Abhishek Rana | `Add complete chat history and engineering chronicle` | Phase 5: Complete end-to-end transcript and chronicle in `chat hitorty.md` and `chat_history.md`. |
 | **`57cd0e9`** | Abhishek Rana | `Admin Command Center, Enforcement, AI Copilot and Delivery` | Phase 4: Admin Mission Control (`/apps/admin`), Enforcement Feed, e-Challans, AI Copilot (`/api/copilot`), `npm run demo`, `README.md`, `PITCH.md`, `DEMO_SCRIPT.md`. |
 | **`5b6f3a1`** | Abhishek Rana | `Implemented Citizen Mobile PWA` | Phase 3: Citizen PWA (`/apps/citizen`), MapLibre OSM, 10-Min Hold, 50-contender ACID concurrency test, Bilingual i18n, Razorpay UPI. |
