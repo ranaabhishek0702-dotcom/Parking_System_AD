@@ -73,10 +73,25 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeViolationsCount
 }) => {
   const persona = USER_PERSONAS[currentRole];
+  const [isDesktop, setIsDesktop] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && window.parksenseDesktop?.isElectron) {
+      setIsDesktop(true);
+    }
+  }, []);
+
+  const handleOpenCitizen = () => {
+    if (typeof window !== 'undefined' && window.parksenseDesktop) {
+      window.parksenseDesktop.openCitizenWindow();
+    } else if (typeof window !== 'undefined') {
+      window.open('http://localhost:3000', '_blank', 'width=412,height=880');
+    }
+  };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#090d16]/90 backdrop-blur-md">
-      <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#090d16]/90 backdrop-blur-md select-none">
+      <div className={`flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8 ${isDesktop ? 'pl-20 sm:pl-20' : ''}`}>
         {/* Left: Brand & MoHUA Emblem */}
         <div className="flex items-center space-x-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 shadow-lg shadow-blue-500/20">
@@ -88,6 +103,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="rounded-md bg-blue-500/10 px-2 py-0.5 text-[10px] font-semibold text-blue-400 border border-blue-500/20">
                 MoHUA Command
               </span>
+              {isDesktop && (
+                <span className="inline-flex items-center space-x-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400 border border-emerald-500/20">
+                  <span>🖥️ ICCC Desktop</span>
+                </span>
+              )}
             </div>
             <p className="text-[11px] text-slate-400 hidden sm:block">
               Smart Street Parking Automation • Delhi NCR Fleet
@@ -115,8 +135,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
         </div>
 
-        {/* Right: Role Switcher & Persona Badge */}
+        {/* Right: Companion Launcher, Role Switcher & Persona Badge */}
         <div className="flex items-center space-x-3">
+          <button
+            onClick={handleOpenCitizen}
+            title="Launch Citizen Mobile App Simulator"
+            className="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-slate-200 hover:text-white rounded-lg text-xs font-medium transition shadow-sm"
+          >
+            <span>📱 Citizen Mobile</span>
+          </button>
+
           <div className="relative">
             <label htmlFor="role-select" className="sr-only">Switch Role</label>
             <div className="flex items-center space-x-2 bg-slate-900/90 border border-slate-700/80 rounded-lg p-1.5 shadow-sm">

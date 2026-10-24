@@ -171,14 +171,28 @@ async function main() {
   // 7. Wait for both apps and open them
   await waitForPorts([3000, 3001]);
 
+  const isDesktopMode = process.argv.includes('--desktop');
+
   console.log('\n✨ PARKSENSE IS FULLY OPERATIONAL!');
   console.log('   • Citizen Mobile PWA:    http://localhost:3000');
   console.log('   • Admin Mission Control: http://localhost:3001');
   console.log('   • Firebase Emulator UI:  http://127.0.0.1:4000');
+  if (isDesktopMode) {
+    console.log('   • Desktop ICCC App:      Launching Electron Command Center...');
+  }
 
-  console.log('\n🌐 Opening applications in your default web browser...');
-  openUrl('http://localhost:3000');
-  setTimeout(() => openUrl('http://localhost:3001'), 1500);
+  if (isDesktopMode) {
+    console.log('\n🖥️ Launching ParkSense Native Desktop Application...');
+    const desktop = spawn('npm', ['run', 'dev', '--workspace=parksense-desktop'], {
+      cwd: rootDir,
+      stdio: 'inherit'
+    });
+    children.push(desktop);
+  } else {
+    console.log('\n🌐 Opening applications in your default web browser (pass --desktop to launch Electron)...');
+    openUrl('http://localhost:3000');
+    setTimeout(() => openUrl('http://localhost:3001'), 1500);
+  }
 
   console.log('\nPress Ctrl+C to shut down all processes.');
 }

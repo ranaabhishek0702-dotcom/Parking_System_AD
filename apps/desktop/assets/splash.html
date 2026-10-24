@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ParkSense Command Center</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: radial-gradient(circle at 50% 30%, #111a2e 0%, #080c14 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+      -webkit-app-region: drag;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+    }
+
+    /* Radar Beacon Animation */
+    .radar-box {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(59, 130, 246, 0.4);
+      animation: pulse 2.4s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    .radar-ring:nth-child(2) {
+      animation-delay: 0.8s;
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .radar-ring:nth-child(3) {
+      animation-delay: 1.6s;
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .logo-core {
+      position: relative;
+      z-index: 2;
+      width: 54px;
+      height: 54px;
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+    }
+
+    .logo-core svg {
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+      background: linear-gradient(to right, #ffffff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60a5fa;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+
+    /* Progress bar */
+    .progress-track {
+      width: 260px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .progress-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 40%;
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      border-radius: 4px;
+      animation: indeterminate 1.8s ease-in-out infinite;
+    }
+
+    .status-text {
+      font-size: 11px;
+      color: #64748b;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      min-height: 16px;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.5);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    @keyframes indeterminate {
+      0% {
+        left: -40%;
+        width: 40%;
+      }
+      50% {
+        left: 20%;
+        width: 60%;
+      }
+      100% {
+        left: 100%;
+        width: 30%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="radar-box">
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="logo-core">
+        <svg viewBox="0 0 24 24">
+          <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
+        </svg>
+      </div>
+    </div>
+
+    <h1>ParkSense Desktop</h1>
+    <div class="badge">MoHUA ICCC Command Center</div>
+    <div class="subtitle">Smart Street Parking Automation • Delhi NCR Fleet</div>
+
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+
+    <div class="status-text" id="statusMsg">Connecting to Realtime Telemetry...</div>
+  </div>
+
+  <script>
+    const msgs = [
+      "Connecting to Realtime Telemetry...",
+      "Initializing AI Dynamic Pricing Engine...",
+      "Syncing 9 Smart Parking Zones...",
+      "Verifying MV Act Sec 177 e-Challan Engine...",
+      "Launching Integrated Command Center..."
+    ];
+    let idx = 0;
+    const el = document.getElementById("statusMsg");
+    setInterval(() => {
+      idx = (idx + 1) % msgs.length;
+      el.textContent = msgs[idx];
+    }, 1200);
+  </script>
+</body>
+</html>

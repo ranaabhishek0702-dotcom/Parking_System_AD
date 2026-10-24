@@ -46,6 +46,7 @@ flowchart TB
     subgraph Client_Surfaces["4. Client Applications & Command Centers"]
         CitizenPWA["Citizen Mobile PWA (:3000)<br/>Bilingual EN/HI • MapLibre OSM<br/>10m Hold • UPI QR Check-In"]
         AdminDashboard["Municipal Admin Command (:3001)<br/>Live Overview • Predict • Manage<br/>Finance • Enforcement • Impact • Simulator"]
+        DesktopICCC["ParkSense Desktop App (Electron 33)<br/>ICCC Operations Room • Multi-Window<br/>Native Menu • System Tray • PDF/CSV Export"]
         AICopilot["Server-Side AI Copilot (/api/copilot)<br/>Gemini 1.5 Flash • Tool Calling<br/>Real DB Grounding & Citations"]
     end
 
@@ -60,9 +61,12 @@ flowchart TB
 
     RTDB <--> CitizenPWA
     RTDB <--> AdminDashboard
+    RTDB <--> DesktopICCC
     Firestore <--> CitizenPWA
     Firestore <--> AdminDashboard
+    Firestore <--> DesktopICCC
     AdminDashboard <--> AICopilot
+    DesktopICCC <--> AICopilot
     AICopilot --> RTDB
     AICopilot --> Firestore
 ```
@@ -79,6 +83,26 @@ cd Parking_System_AD
 npm install
 npm run demo
 ```
+
+### 🖥️ Native Desktop Application (Electron)
+
+For municipal smart city control rooms (Integrated Command & Control Centre - ICCC) and traffic squad monitoring desks, ParkSense runs as a dedicated high-performance desktop application:
+
+```bash
+# Launch ParkSense Electron Desktop Command Center
+npm run desktop
+
+# Or boot all emulators + simulator + Electron desktop in one command
+node scripts/demo.mjs --desktop
+```
+
+**Desktop Highlights:**
+- **Custom Mac/Windows Dark Frame**: Sleek `hiddenInset` dark titlebar with MoHUA emblems.
+- **Multi-Window Companion Simulator**: Launch the mobile Citizen PWA window (`Cmd+Shift+M`) directly alongside the Command Center.
+- **Native OS Menu Shortcuts**: `Cmd+1` through `Cmd+8` for instant tab switching, `Cmd+Alt+1..4` for Role Personas, and instant simulation triggers.
+- **System Tray Telemetry**: Persistent status bar tray with live occupancy metrics and quick scenario switcher.
+- **Direct PDF/CSV File Dialogs**: Native OS file save dialogs for settlement ledgers and e-Challan summons.
+- **Animated Splash Screen**: Radar beacon loading screen while backend telemetry establishes link.
 
 ### What `npm run demo` Executes Automatically:
 1. **Compiles TypeScript Monorepo**: Builds `@parksense/shared`, `functions`, and `simulator`.

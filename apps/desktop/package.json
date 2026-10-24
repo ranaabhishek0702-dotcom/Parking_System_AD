@@ -1,0 +1,21 @@
+{
+  "name": "parksense-desktop",
+  "version": "1.0.0",
+  "description": "ParkSense Smart City Integrated Command & Control Centre (ICCC) Desktop App",
+  "main": "dist/main.js",
+  "author": "ParkSense Team (MoHUA)",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && electron .",
+    "start": "electron .",
+    "pack": "tsc && electron-builder --dir",
+    "dist": "tsc && electron-builder"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "electron": "^33.2.1",
+    "typescript": "^5.7.3"
+  }
+}

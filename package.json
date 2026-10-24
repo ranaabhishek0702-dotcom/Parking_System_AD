@@ -21,7 +21,10 @@
     "simulate": "npm run simulate --workspace=parksense-simulator",
     "emulators": "firebase emulators:start --only auth,firestore,database,functions",
     "dev:backend": "node scripts/dev-backend.mjs",
-    "demo": "node scripts/demo.mjs"
+    "demo": "node scripts/demo.mjs",
+    "desktop": "npm run dev --workspace=parksense-desktop",
+    "desktop:start": "npm run start --workspace=parksense-desktop",
+    "desktop:build": "npm run build --workspace=parksense-desktop"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",

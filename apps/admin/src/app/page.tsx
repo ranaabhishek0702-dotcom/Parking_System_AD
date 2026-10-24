@@ -163,6 +163,37 @@ export default function AdminDashboardPage() {
     }
   }, []);
 
+  // Listen for Electron Desktop menu navigation, role switching and badge synchronization
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.parksenseDesktop) {
+      const unsubTab = window.parksenseDesktop.onNavigateTab((tabKey) => {
+        if (TABS.some((t) => t.key === tabKey)) {
+          setCurrentTab(tabKey as TabKey);
+        }
+      });
+
+      const unsubRole = window.parksenseDesktop.onSwitchRole((newRole) => {
+        if (
+          ['super_admin', 'zone_manager', 'enforcement_officer', 'finance_auditor'].includes(newRole)
+        ) {
+          setCurrentRole(newRole as AdminRole);
+        }
+      });
+
+      const unsubScenario = window.parksenseDesktop.onTriggerScenario(() => {
+        setCurrentTab('simulation');
+      });
+
+      window.parksenseDesktop.setDockBadge(activeViolationsCount > 0 ? String(activeViolationsCount) : '');
+
+      return () => {
+        unsubTab?.();
+        unsubRole?.();
+        unsubScenario?.();
+      };
+    }
+  }, [activeViolationsCount]);
+
   // Listen to RTDB live_zones for real-time telemetry updates
   useEffect(() => {
     const liveZonesRef = ref(rtdb, 'live_zones');

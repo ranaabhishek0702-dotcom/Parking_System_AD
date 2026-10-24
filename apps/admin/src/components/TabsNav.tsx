@@ -108,6 +108,8 @@ export const TabsNav: React.FC<TabsNavProps> = ({ currentTab, onTabChange, userR
           return (
             <button
               key={tab.key}
+              id={`tab-btn-${tab.key}`}
+              data-tab={tab.key}
               onClick={() => onTabChange(tab.key)}
               className={`flex items-center space-x-2 rounded-lg px-3.5 py-2 text-xs font-medium transition-all duration-150 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${
                 isActive

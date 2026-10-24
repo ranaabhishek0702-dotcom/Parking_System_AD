@@ -149,20 +149,35 @@ export const FinanceTab: React.FC<FinanceTabProps> = ({ zones }) => {
       t.status
     ]);
 
-    const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const rawCsv = [headers.join(','), ...rows.map((e) => e.join(','))].join('\n');
+    const filename = `ParkSense_MoHUA_Settlement_Ledger_${new Date().toISOString().slice(0, 10)}.csv`;
 
+    if (typeof window !== 'undefined' && window.parksenseDesktop?.saveFile) {
+      window.parksenseDesktop.saveFile({
+        defaultPath: filename,
+        filters: [{ name: 'CSV File', extensions: ['csv'] }],
+        content: rawCsv
+      });
+      return;
+    }
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + rawCsv;
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `ParkSense_MoHUA_Settlement_Ledger_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute('download', filename);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
+    if (typeof window !== 'undefined' && window.parksenseDesktop?.printToPDF) {
+      await window.parksenseDesktop.printToPDF({
+        filename: `ParkSense_Settlement_Report_${new Date().toISOString().slice(0, 10)}.pdf`
+      });
+      return;
+    }
     window.print();
   };
 
