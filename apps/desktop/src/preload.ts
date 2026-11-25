@@ -45,6 +45,14 @@ contextBridge.exposeInMainWorld('parksenseDesktop', {
   maximize: () => ipcRenderer.send('parksense:window-maximize'),
   close: () => ipcRenderer.send('parksense:window-close'),
 
+  // Connection Management (for offline fallback page)
+  connectToUrl: (url: string) => {
+    ipcRenderer.send('parksense:connect-url', url);
+  },
+  retryConnection: () => {
+    ipcRenderer.send('parksense:retry-connection');
+  },
+
   // Listeners from Application Menu or System Tray
   onNavigateTab: (callback: (tab: string) => void) => {
     const handler = (_event: any, tab: string) => callback(tab);

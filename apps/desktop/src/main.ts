@@ -123,12 +123,22 @@ function createMainWindow() {
     }
     return { action: 'allow' };
   });
+
+  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL) => {
+    // If loading server failed (e.g. ERR_CONNECTION_REFUSED), load offline diagnostic screen instead of blank screen
+    const offlinePath = path.join(__dirname, '../assets/offline.html');
+    if (fs.existsSync(offlinePath) && !validatedURL.includes('offline.html')) {
+      console.warn(`[Desktop] Connection failed (${errorCode}: ${errorDescription}) on ${validatedURL}. Loading offline fallback.`);
+      mainWindow?.loadFile(offlinePath);
+    }
+  });
 }
 
 /**
  * Polls the Admin server until ready, then loads the URL
  */
 function loadAdminWithRetry(url: string, retriesLeft: number) {
+  const offlinePath = path.join(__dirname, '../assets/offline.html');
   const checkServer = () => {
     http
       .get(url, (res) => {
@@ -140,7 +150,11 @@ function loadAdminWithRetry(url: string, retriesLeft: number) {
           setTimeout(() => loadAdminWithRetry(url, retriesLeft - 1), 800);
         } else {
           if (mainWindow && !mainWindow.isDestroyed()) {
-            mainWindow.loadURL(url);
+            if (fs.existsSync(offlinePath)) {
+              mainWindow.loadFile(offlinePath);
+            } else {
+              mainWindow.loadURL(url);
+            }
           }
         }
       })
@@ -148,9 +162,13 @@ function loadAdminWithRetry(url: string, retriesLeft: number) {
         if (retriesLeft > 0) {
           setTimeout(() => loadAdminWithRetry(url, retriesLeft - 1), 800);
         } else {
-          // If server still unreachable, load with default error page
+          // If server still unreachable, load offline diagnostic fallback page instead of blank screen
           if (mainWindow && !mainWindow.isDestroyed()) {
-            mainWindow.loadURL(url);
+            if (fs.existsSync(offlinePath)) {
+              mainWindow.loadFile(offlinePath);
+            } else {
+              mainWindow.loadURL(url);
+            }
           }
         }
       });
@@ -541,6 +559,18 @@ function setupTray() {
  * Register IPC Handlers
  */
 function setupIpcHandlers() {
+  // Connect to custom or remote URL from offline fallback screen
+  ipcMain.on('parksense:connect-url', (_event, url: string) => {
+    if (mainWindow && !mainWindow.isDestroyed() && url) {
+      mainWindow.loadURL(url);
+    }
+  });
+
+  // Retry connection to default ADMIN_URL
+  ipcMain.on('parksense:retry-connection', () => {
+    loadAdminWithRetry(ADMIN_URL, 5);
+  });
+
   // Open citizen companion
   ipcMain.on('parksense:open-citizen', () => {
     openCitizenCompanion();

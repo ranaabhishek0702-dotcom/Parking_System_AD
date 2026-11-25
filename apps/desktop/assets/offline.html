@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParkSense Command Centre — Connection Required</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: radial-gradient(circle at 50% 25%, #111a2e 0%, #080c14 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      user-select: none;
+      -webkit-app-region: drag;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 680px;
+      width: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(59, 130, 246, 0.15);
+      backdrop-filter: blur(16px);
+      text-align: center;
+      -webkit-app-region: no-drag;
+    }
+
+    .radar-box {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(245, 158, 11, 0.4);
+      animation: pulse 2.4s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    .radar-ring:nth-child(2) {
+      animation-delay: 0.8s;
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .logo-core {
+      position: relative;
+      z-index: 2;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
+    }
+
+    .logo-core svg {
+      width: 26px;
+      height: 26px;
+      fill: #ffffff;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+      background: linear-gradient(to right, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .description {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: rgba(8, 12, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #38bdf8;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .command-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #040711;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      color: #34d399;
+    }
+
+    .copy-btn {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(59, 130, 246, 0.4);
+      color: #ffffff;
+    }
+
+    .remote-section {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .input-url {
+      flex: 1;
+      background: #040711;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-url:focus {
+      border-color: #3b82f6;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border: none;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #f59e0b;
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.5); opacity: 0.8; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="radar-box">
+      <div class="radar-ring"></div>
+      <div class="radar-ring"></div>
+      <div class="logo-core">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+      </div>
+    </div>
+
+    <h1>ParkSense Command Centre</h1>
+    <div class="badge">Awaiting Local or Remote Backend</div>
+
+    <p class="description">
+      The desktop application connects to the ParkSense Municipal Server on 
+      <strong style="color: #60a5fa;">http://localhost:3001</strong>. 
+      Start the local backend services, or specify a remote cloud deployment URL below.
+    </p>
+
+    <!-- Option 1: Local Development -->
+    <div class="card">
+      <div class="card-title">
+        <span>⚡ Option 1: Start Local Demo Stack</span>
+      </div>
+      <div class="command-box">
+        <span id="cmdText">npm run demo</span>
+        <button class="copy-btn" onclick="copyCommand()">Copy Command</button>
+      </div>
+      <div style="font-size: 11px; color: #64748b; margin-top: 8px;">
+        Run this in your terminal. This window will automatically connect once the server boots!
+      </div>
+    </div>
+
+    <!-- Option 2: Remote / Cloud Deployment -->
+    <div class="card">
+      <div class="card-title">
+        <span>🌐 Option 2: Connect to Remote / Hosted URL</span>
+      </div>
+      <div class="remote-section">
+        <input 
+          type="text" 
+          id="remoteUrlInput" 
+          class="input-url" 
+          placeholder="https://parksense-admin.your-domain.com"
+          value="http://localhost:3001"
+        />
+        <button class="btn-primary" onclick="connectToCustomUrl()">Connect</button>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 12px; justify-content: center; margin-top: 10px;">
+      <button class="btn-secondary" onclick="checkNow()">Retry Local Connection</button>
+    </div>
+
+    <div class="status-row">
+      <div class="dot" id="statusDot"></div>
+      <span id="statusLabel">Auto-checking http://localhost:3001 every 3s...</span>
+    </div>
+  </div>
+
+  <script>
+    const targetUrl = 'http://localhost:3001';
+    let checkInterval = null;
+
+    function copyCommand() {
+      const text = document.getElementById('cmdText').innerText;
+      navigator.clipboard.writeText(text);
+      const btn = document.querySelector('.copy-btn');
+      btn.innerText = 'Copied!';
+      setTimeout(() => btn.innerText = 'Copy Command', 2000);
+    }
+
+    function connectToCustomUrl() {
+      const url = document.getElementById('remoteUrlInput').value.trim();
+      if (!url) return;
+      document.getElementById('statusLabel').innerText = 'Connecting to ' + url + '...';
+      if (window.parksenseDesktop && window.parksenseDesktop.connectToUrl) {
+        window.parksenseDesktop.connectToUrl(url);
+      } else {
+        window.location.href = url;
+      }
+    }
+
+    async function checkNow() {
+      const label = document.getElementById('statusLabel');
+      label.innerText = 'Pinging http://localhost:3001...';
+      try {
+        const resp = await fetch('http://127.0.0.1:3001', { mode: 'no-cors', cache: 'no-store' });
+        label.innerText = 'Backend detected! Redirecting...';
+        document.getElementById('statusDot').style.background = '#10b981';
+        setTimeout(() => {
+          if (window.parksenseDesktop && window.parksenseDesktop.connectToUrl) {
+            window.parksenseDesktop.connectToUrl(targetUrl);
+          } else {
+            window.location.href = targetUrl;
+          }
+        }, 600);
+      } catch (e) {
+        label.innerText = 'Server not reachable yet. Still checking every 3s...';
+      }
+    }
+
+    // Auto-poll every 3 seconds
+    checkInterval = setInterval(checkNow, 3000);
+  </script>
+</body>
+</html>
