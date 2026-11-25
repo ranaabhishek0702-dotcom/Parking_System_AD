@@ -185,7 +185,12 @@ async function main() {
     console.log('\n🖥️ Launching ParkSense Native Desktop Application...');
     const desktop = spawn('npm', ['run', 'dev', '--workspace=parksense-desktop'], {
       cwd: rootDir,
-      stdio: 'inherit'
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        PARKSENSE_ADMIN_URL: 'http://localhost:3001',
+        PARKSENSE_CITIZEN_URL: 'http://localhost:3000'
+      }
     });
     children.push(desktop);
   } else {

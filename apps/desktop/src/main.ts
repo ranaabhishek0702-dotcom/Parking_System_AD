@@ -12,12 +12,13 @@ import {
 } from 'electron';
 import * as path from 'path';
 import * as http from 'http';
+import * as https from 'https';
 import * as fs from 'fs';
 import * as os from 'os';
 
-// URLs for ParkSense surfaces
-const ADMIN_URL = process.env.PARKSENSE_ADMIN_URL || 'http://localhost:3001';
-const CITIZEN_URL = process.env.PARKSENSE_CITIZEN_URL || 'http://localhost:3000';
+// URLs for ParkSense surfaces (Defaults to live Vercel production deployment)
+const ADMIN_URL = process.env.PARKSENSE_ADMIN_URL || 'https://parkingsystemad.vercel.app';
+const CITIZEN_URL = process.env.PARKSENSE_CITIZEN_URL || 'https://parksense-citizen.vercel.app';
 
 let mainWindow: BrowserWindow | null = null;
 let citizenWindow: BrowserWindow | null = null;
@@ -140,7 +141,8 @@ function createMainWindow() {
 function loadAdminWithRetry(url: string, retriesLeft: number) {
   const offlinePath = path.join(__dirname, '../assets/offline.html');
   const checkServer = () => {
-    http
+    const client = url.startsWith('https:') ? https : http;
+    client
       .get(url, (res) => {
         if (res.statusCode && res.statusCode < 500) {
           if (mainWindow && !mainWindow.isDestroyed()) {
