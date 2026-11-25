@@ -3,27 +3,11 @@
   "services": {
     "admin": {
       "root": "apps/admin",
-      "framework": "nextjs",
-      "bindings": [
-        {
-          "type": "service",
-          "service": "citizen",
-          "format": "url",
-          "env": "CITIZEN_URL"
-        }
-      ]
+      "framework": "nextjs"
     },
     "citizen": {
       "root": "apps/citizen",
-      "framework": "nextjs",
-      "bindings": [
-        {
-          "type": "service",
-          "service": "admin",
-          "format": "url",
-          "env": "ADMIN_URL"
-        }
-      ]
+      "framework": "nextjs"
     }
   },
   "rewrites": [
