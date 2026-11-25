@@ -1,0 +1,49 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "admin": {
+      "root": "apps/admin",
+      "framework": "nextjs",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "citizen",
+          "format": "url",
+          "env": "CITIZEN_URL"
+        }
+      ]
+    },
+    "citizen": {
+      "root": "apps/citizen",
+      "framework": "nextjs",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "admin",
+          "format": "url",
+          "env": "ADMIN_URL"
+        }
+      ]
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/citizen/(.*)",
+      "destination": {
+        "service": "citizen"
+      }
+    },
+    {
+      "source": "/citizen",
+      "destination": {
+        "service": "citizen"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "admin"
+      }
+    }
+  ]
+}

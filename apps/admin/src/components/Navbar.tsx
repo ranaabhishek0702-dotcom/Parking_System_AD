@@ -85,7 +85,10 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (typeof window !== 'undefined' && window.parksenseDesktop) {
       window.parksenseDesktop.openCitizenWindow();
     } else if (typeof window !== 'undefined') {
-      window.open('http://localhost:3000', '_blank', 'width=412,height=880');
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const fallbackUrl = isLocal ? 'http://localhost:3000' : '/citizen';
+      const citizenUrl = process.env.NEXT_PUBLIC_CITIZEN_URL || fallbackUrl;
+      window.open(citizenUrl, '_blank', 'width=412,height=880');
     }
   };
 
